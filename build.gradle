@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id "org.springframework.boot" version "2.0.1.RELEASE"
+}
+
+group 'ru.mkanin'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+def SPRING_VERSION = "2.7.3"
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web:$SPRING_VERSION",
+            "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_VERSION",
+            "org.springframework.boot:spring-boot-starter-validation:$SPRING_VERSION",
+            "org.springframework.boot:spring-boot-starter-actuator:$SPRING_VERSION",
+            "com.h2database:h2:2.1.214",
+            "javax.xml.bind:jaxb-api:2.3.1",
+            "org.postgresql:postgresql:42.5.0",
+            "com.fasterxml.jackson.core:jackson-databind:2.13.4")
+    compileOnly "org.projectlombok:lombok:1.18.24"
+    annotationProcessor "org.projectlombok:lombok:1.18.24"
+}
+
+apply plugin: 'java'

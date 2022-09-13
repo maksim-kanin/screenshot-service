@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  screenshot-service:
+    image: screenshot-service:v1
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ${CONFIG_PATH}:/app/configs
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    volumes:
+      - ${PWD}/postgresql/data:/var/lib/postgresql/data
+      - ./scripts/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
